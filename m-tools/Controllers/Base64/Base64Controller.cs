@@ -44,7 +44,6 @@ namespace m_tools.Controllers.Base64
                                 Code = 1,
                                 Data = base64
                             };
-                            break;
                     }
                 }
                 else if (type == "decode")
@@ -61,7 +60,6 @@ namespace m_tools.Controllers.Base64
                                 Code = 1,
                                 Data = code
                             };
-                            break;
                     }
                 }
 

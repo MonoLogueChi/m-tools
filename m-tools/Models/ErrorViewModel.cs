@@ -1,6 +1,4 @@
-using System;
-
-namespace m_tools.Models
+﻿namespace m_tools.Models
 {
 	public class ErrorViewModel
 	{
