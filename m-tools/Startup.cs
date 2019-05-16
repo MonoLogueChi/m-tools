@@ -1,4 +1,5 @@
-﻿using m_tools.Util.Qr;
+﻿using m_tools.Util.Base64;
+using m_tools.Util.Qr;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -31,6 +32,7 @@ namespace m_tools
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddSingleton<IGetQr, GetQr>();
+            services.AddSingleton<IBase64, Base64>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
