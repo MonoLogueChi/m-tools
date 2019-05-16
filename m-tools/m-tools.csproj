@@ -20,4 +20,11 @@
     <Folder Include="AppData\" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <None Update="AppData\aa2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

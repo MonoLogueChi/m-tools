@@ -9,13 +9,13 @@ namespace m_tools.Controllers.Qr
     [ApiController]
     public class QrController : ControllerBase
     {
-        public readonly IGetQr GetQr;
-        public readonly ILogger<QrController> Logger;
+        private readonly IGetQr _getQr;
+        private readonly ILogger<QrController> _logger;
 
         public QrController(IGetQr getQr, ILogger<QrController> logger)
         {
-            GetQr = getQr;
-            Logger = logger;
+            _getQr = getQr;
+            _logger = logger;
         }
 
         // GET: api/QR
@@ -26,12 +26,12 @@ namespace m_tools.Controllers.Qr
             data = string.IsNullOrWhiteSpace(data) ? "http://weixin.qq.com/r/PjgpMaTEv-nAreBS920s" : data;
             try
             {
-                return GetQr.GenByZXingNet(data);
+                return _getQr.GenByZXingNet(data);
             }
             catch (Exception e)
             {
-                Logger.LogError(e, $"错误参数:{data}");
-                return GetQr.GenByFlie();
+                _logger.LogError(e, $"错误参数:{data}");
+                return _getQr.GenByFlie();
             }
         }
 
@@ -42,12 +42,12 @@ namespace m_tools.Controllers.Qr
             data = string.IsNullOrWhiteSpace(data) ? "http://weixin.qq.com/r/PjgpMaTEv-nAreBS920s" : data;
             try
             {
-                return GetQr.GenByZXingNet(data);
+                return _getQr.GenByZXingNet(data);
             }
             catch (Exception e)
             {
-                Logger.LogError(e, $"错误参数:{data}");
-                return GetQr.GenByFlie();
+                _logger.LogError(e, $"错误参数:{data}");
+                return _getQr.GenByFlie();
             }
         }
     }
