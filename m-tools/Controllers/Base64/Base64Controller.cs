@@ -28,17 +28,19 @@ namespace m_tools.Controllers.Base64
         {
             HttpRequest request = Request;
             string type = request.Query["type"];
+            string dataType = request.Query["datatype"];
+            string data = request.Query["data"];
             try
             {
                 if (type == "encode")
                 {
-                    string dataType = request.Query["datatype"];
+                    
                     switch (dataType)
                     {
                         case "text":
-                            string text = request.Query["text"];
-                            if (string.IsNullOrWhiteSpace(text)) break;
-                            var base64 = _base64.ToBase64(Encoding.UTF8, text);
+                            
+                            if (string.IsNullOrWhiteSpace(data)) break;
+                            var base64 = _base64.ToBase64(Encoding.UTF8, data);
                             return new WebResult
                             {
                                 Code = 1,
@@ -48,13 +50,11 @@ namespace m_tools.Controllers.Base64
                 }
                 else if (type == "decode")
                 {
-                    string dataType = request.Query["datatype"];
                     switch (dataType)
                     {
                         case "text":
-                            string text = request.Query["text"];
-                            if (string.IsNullOrWhiteSpace(text)) break;
-                            var code = _base64.FromBase64(Encoding.UTF8, text);
+                            if (string.IsNullOrWhiteSpace(data)) break;
+                            var code = _base64.FromBase64(Encoding.UTF8, data);
                             return new WebResult
                             {
                                 Code = 1,
