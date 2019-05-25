@@ -24,49 +24,38 @@ namespace m_tools.Controllers.Base64
 
         // GET: api/Base64
         [HttpGet]
-        public WebResult Get()
+        public object Get()
         {
             HttpRequest request = Request;
             string type = request.Query["type"];
-            string dataType = request.Query["datatype"];
             string data = request.Query["data"];
+            string result = null;
+
             try
             {
-                if (type == "encode")
+                if (string.IsNullOrWhiteSpace(data))
                 {
-                    
-                    switch (dataType)
+                    return new WebResult
                     {
-                        case "text":
-                            
-                            if (string.IsNullOrWhiteSpace(data)) break;
-                            var base64 = _base64.ToBase64(Encoding.UTF8, data);
-                            return new WebResult
-                            {
-                                Code = 1,
-                                Data = base64
-                            };
-                    }
+                        Code = 2,
+                        Data = "参数错误"
+                    };
                 }
-                else if (type == "decode")
+
+                switch (type)
                 {
-                    switch (dataType)
-                    {
-                        case "text":
-                            if (string.IsNullOrWhiteSpace(data)) break;
-                            var code = _base64.FromBase64(Encoding.UTF8, data);
-                            return new WebResult
-                            {
-                                Code = 1,
-                                Data = code
-                            };
-                    }
+                    case "encode":
+                        result = _base64.ToBase64(Encoding.UTF8, data);
+                        break;
+                    case "decode":
+                        result = _base64.FromBase64(Encoding.UTF8, data);
+                        break;
                 }
 
                 return new WebResult
                 {
-                    Code = 2,
-                    Data = "参数错误"
+                    Code = 1,
+                    Data = result
                 };
             }
             catch (Exception e)
@@ -78,9 +67,45 @@ namespace m_tools.Controllers.Base64
 
         // POST: api/Base64
         [HttpPost]
-        public void Post()
+        public object Post()
         {
+            HttpRequest request = Request;
+            string type = request.Form["type"];
+            string data = request.Form["data"];
+            string result = null;
 
+            try
+            {
+                if (string.IsNullOrWhiteSpace(data))
+                {
+                    return new WebResult
+                    {
+                        Code = 2,
+                        Data = "参数错误"
+                    };
+                }
+
+                switch (type)
+                {
+                    case "encode":
+                        result = _base64.ToBase64(Encoding.UTF8, data);
+                        break;
+                    case "decode":
+                        result = _base64.FromBase64(Encoding.UTF8, data);
+                        break;
+                }
+
+                return new WebResult
+                {
+                    Code = 1,
+                    Data = result
+                };
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"错误类型{type}");
+                return new WebResult();
+            }
         }
     }
 }

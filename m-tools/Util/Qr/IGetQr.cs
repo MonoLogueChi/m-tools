@@ -7,5 +7,7 @@ namespace m_tools.Util.Qr
         FileResult GenByZXingNet(string tt);
 
         FileResult GenByFlie();
+
+        FileResult BadResult();
     }
 }

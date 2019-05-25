@@ -1,7 +1,8 @@
-﻿using System;
+﻿using m_tools.Models;
 using m_tools.Util.Qr;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace m_tools.Controllers.Qr
 {
@@ -31,14 +32,13 @@ namespace m_tools.Controllers.Qr
             catch (Exception e)
             {
                 _logger.LogError(e, $"错误参数:{data}");
-                return _getQr.GenByFlie();
+                return _getQr.BadResult();
             }
         }
 
-        [HttpPost]
-        public FileResult Post()
+        [HttpPost("From")]
+        public FileResult Post([FromForm]string data)
         {
-            string data = Request.Form["data"];
             data = string.IsNullOrWhiteSpace(data) ? "http://weixin.qq.com/r/PjgpMaTEv-nAreBS920s" : data;
             try
             {
@@ -47,7 +47,22 @@ namespace m_tools.Controllers.Qr
             catch (Exception e)
             {
                 _logger.LogError(e, $"错误参数:{data}");
-                return _getQr.GenByFlie();
+                return _getQr.BadResult();
+            }
+        }
+
+        [HttpPost]
+        public FileResult Post([FromBody]QrRawData data)
+        {
+            data.Data = string.IsNullOrWhiteSpace(data.Data) ? "http://weixin.qq.com/r/PjgpMaTEv-nAreBS920s" : data.Data;
+            try
+            {
+                return _getQr.GenByZXingNet(data.Data);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"错误参数:{data}");
+                return _getQr.BadResult();
             }
         }
     }
