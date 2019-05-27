@@ -32,7 +32,7 @@ namespace m_tools.Controllers.Qr
             catch (Exception e)
             {
                 _logger.LogError(e, $"错误参数:{data}");
-                return _getQr.BadResult();
+                return _getQr.BadResult("Error");
             }
         }
 
@@ -47,7 +47,7 @@ namespace m_tools.Controllers.Qr
             catch (Exception e)
             {
                 _logger.LogError(e, $"错误参数:{data}");
-                return _getQr.BadResult();
+                return _getQr.BadResult("Error");
             }
         }
 
@@ -62,7 +62,7 @@ namespace m_tools.Controllers.Qr
             catch (Exception e)
             {
                 _logger.LogError(e, $"错误参数:{data}");
-                return _getQr.BadResult();
+                return _getQr.BadResult("Error");
             }
         }
     }

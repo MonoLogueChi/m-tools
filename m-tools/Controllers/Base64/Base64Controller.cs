@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using m_tools.Models;
 using m_tools.Util.Base64;
 using Microsoft.AspNetCore.Http;
@@ -27,84 +26,55 @@ namespace m_tools.Controllers.Base64
         public object Get()
         {
             HttpRequest request = Request;
-            string type = request.Query["type"];
-            string data = request.Query["data"];
-            string result = null;
-
+            var data = new Base64RawData<string>
+            {
+                Type = Enum.Parse<Base64CodeType>(request.Query["type"],true),
+                RawData = request.Query["raw"]
+            };
             try
             {
-                if (string.IsNullOrWhiteSpace(data))
-                {
-                    return new WebResult
-                    {
-                        Code = 2,
-                        Data = "参数错误"
-                    };
-                }
-
-                switch (type)
-                {
-                    case "encode":
-                        result = _base64.ToBase64(Encoding.UTF8, data);
-                        break;
-                    case "decode":
-                        result = _base64.FromBase64(Encoding.UTF8, data);
-                        break;
-                }
-
-                return new WebResult
-                {
-                    Code = 1,
-                    Data = result
-                };
+                return _base64.StringResult(data);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, $"错误类型{type}");
-                return new WebResult();
+                _logger.LogError(e,$"错误类型:{data.Type.ToString()}");
+                throw;
+            }
+
+            
+        }
+
+        [HttpPost]
+        public object Post([FromBody] Base64RawData<string> data)
+        {
+            try
+            {
+                return _base64.StringResult(data);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"错误类型:{data.Type.ToString()}");
+                throw;
             }
         }
 
         // POST: api/Base64
-        [HttpPost]
-        public object Post()
+        [HttpPost("From")]
+        public object Post([FromForm]string type, [FromForm]string raw)
         {
-            HttpRequest request = Request;
-            string type = request.Form["type"];
-            string data = request.Form["data"];
-            string result = null;
-
+            var data = new Base64RawData<string>
+            {
+                Type = Enum.Parse<Base64CodeType>(type, true),
+                RawData = raw
+            };
             try
             {
-                if (string.IsNullOrWhiteSpace(data))
-                {
-                    return new WebResult
-                    {
-                        Code = 2,
-                        Data = "参数错误"
-                    };
-                }
-
-                switch (type)
-                {
-                    case "encode":
-                        result = _base64.ToBase64(Encoding.UTF8, data);
-                        break;
-                    case "decode":
-                        result = _base64.FromBase64(Encoding.UTF8, data);
-                        break;
-                }
-
-                return new WebResult
-                {
-                    Code = 1,
-                    Data = result
-                };
+                return _base64.StringResult(data);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, $"错误类型{type}");
-                return new WebResult();
+                _logger.LogError(e, $"错误类型:{data.Type.ToString()}");
+                throw;
             }
         }
     }
