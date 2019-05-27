@@ -23,7 +23,7 @@
 
 
   <ItemGroup>
-    <None Update="AppData\aa2.png">
+    <None Update="AppData\Hei.TTF">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
